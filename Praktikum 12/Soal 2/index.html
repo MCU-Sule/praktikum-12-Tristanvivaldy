@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="TristanVivaldy 2172032">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Random Champion</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    .random {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 95%;
+        margin-top: 10px;
+        padding: 5px;
+    }
+    .sub-container {
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+        background-color: black;
+        display: none;
+    }
+    .list {
+        margin: 10px 50px;
+        margin-bottom: 50px;
+        display: flex;
+    }
+    .name {
+        color: #ffc300;
+        background-color: #735a05;
+        width: 98.2%;
+        font-size: 2em;
+        margin-top: 65px;
+        padding: 10px;
+        padding-left: 30px;
+    }
+    .text {
+        position: relative;
+        left: 9%;
+        width: 91%;
+    }
+    .desc {
+        width: 98%;
+        padding: 20px;
+        color: white;
+        border: 1px solid yellow;
+        border-top: none;
+    }
+    .icon {
+        position: absolute;
+        z-index: 2;
+    }
+</style>
+<body>
+    <div class="container">
+        <button class="random" onclick="random()">Find me 3 random Champion</button>
+        <div class="sub-container">
+        <div class="list">
+            <div class="icon1 icon"></div>
+            <div class="text">
+                <div class="name1 name"></div> 
+                <div class="desc1 desc"></div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="icon2 icon"></div>
+            <div class="text">
+                <div class="name2 name"></div>
+                <div class="desc2 desc"></div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="icon3 icon"></div>
+            <div class="text">
+                <div class="name3 name"></div>
+                <div class="desc3 desc"></div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <script>
+        function random(){
+            $(".sub-container").css({"display" : "inline-block"});
+            $(".icon1").empty();
+            $(".icon2").empty();
+            $(".icon3").empty();
+            $.getJSON("../assets/league.json", function(result){
+                console.log(result)
+                for(i=1;i<=3;i++){
+                    let angka = Math.floor(Math.random()*result.length)
+                    $(".icon"+i).prepend("<img src="+result[angka].icon+" style='border:5px solid #ff8421; border-radius:25%'>")
+                    $(".name"+i).html(result[angka].name)
+                    $(".desc"+i).html(result[angka].description)
+                }
+            })
+        }
+    </script>
+</body>
+</html>

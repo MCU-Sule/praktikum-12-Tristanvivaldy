@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="TristanVivaldy 2172032">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>City</title>
+</head>
+<style>
+    .sub-container {
+        border: 1px solid black;
+        width: 300px;
+        height: 80px;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    #city {
+        margin-left: 40px;
+        height: 20px;
+        width: 200px;
+    }
+    .submit {
+        width: 100px;
+        height: 25px;
+        font-size: 0.8em;
+        position: absolute;
+        right: 23px;
+    }
+    .result {
+        margin-top: 20px;
+        position: relative;
+        text-align: center;
+        padding: 5px;
+        line-height: 17px;
+        font-weight: bold;
+
+    }
+    .nama {
+        font-size: 1.5em;
+    }
+    .country, .coor {
+        font-size: 0.9em;
+    }
+</style>
+<body>
+    <div class="container">
+    <form action="index.html">
+    <fieldset class="sub-container">
+        <legend>City</legend>
+        <label for="city">Name</label>
+        <input list="nama" name="city" id="city" onclick="kosong()"><br>
+        <datalist id="nama">
+        <script>
+            $.getJSON("../assets/cityList.json", function(result){
+                console.log(result);
+                for (k=0;k<result.city.length;k++){
+                    $("#nama").append("<option value='"+result.city[k].name+"'>")
+                }
+            });
+        </script>
+        </datalist>
+    <input type="button" value="Submit Query" class="submit" onclick="tampil()"></button>
+    </fieldset>
+    </form>
+    <div class="result">
+        <div class="nama"></div> <br>
+        <div class="country"></div> <br>
+        <div class="coor"></div>
+    </div>
+    </div>
+    <script>
+        function kosong () {
+            document.getElementById("city").value="";
+        }
+        function tampil () {
+            $(".result").css({"background-color":"#9df8d4"});
+            $(".nama").empty()
+            $(".country").empty()
+            $(".coor").empty()
+            let pilihan = document.getElementById("city").value;
+            $.getJSON("../assets/cityList.json", function(result){
+            for (i=0;i<result.city.length;i++){
+                if(result.city[i].name == pilihan) {
+                    $(".nama").append("City Name "+ result.city[i].name+" ("+result.city[i].id+")");
+                    $(".country").append("Country "+ result.city[i].country);
+                    $(".coor").append("Coordinates (lat, lon): "+ result.city[i].coord.lat+", "+ result.city[i].coord.lon);
+                }
+            }
+            })
+        }
+    </script>
+</body>
+</html>
